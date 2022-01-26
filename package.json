@@ -20,7 +20,8 @@
     "test:cov": "ENV_POSTFIX=test jest --coverage",
     "test:debug": "ENV_POSTFIX=test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "ENV_POSTFIX=test jest --config ./test/jest-e2e.json",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "make:schema": "ts-node src/core/graphql/schema.generator.ts"
   },
   "dependencies": {
     "@nestjs/common": "8.1.2",
@@ -39,6 +40,7 @@
     "mysql2": "^2.3.2",
     "reflect-metadata": "0.1.13",
     "rxjs": "7.4.0",
+    "ts-morph": "^13.0.3",
     "typeorm": "^0.2.38",
     "typeorm-naming-strategies": "^2.0.0"
   },
