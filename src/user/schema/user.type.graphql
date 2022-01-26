@@ -1,0 +1,6 @@
+"""
+유저
+"""
+type User {
+    name: String!
+}
