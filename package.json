@@ -19,7 +19,8 @@
     "test:watch": "ENV_POSTFIX=test jest --watch",
     "test:cov": "ENV_POSTFIX=test jest --coverage",
     "test:debug": "ENV_POSTFIX=test node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "ENV_POSTFIX=test jest --config ./test/jest-e2e.json"
+    "test:e2e": "ENV_POSTFIX=test jest --config ./test/jest-e2e.json",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@nestjs/common": "8.1.2",
@@ -61,7 +62,8 @@
     "ts-loader": "9.2.6",
     "ts-node": "10.4.0",
     "tsconfig-paths": "3.11.0",
-    "typescript": "4.4.2"
+    "typescript": "4.4.2",
+    "husky": "^7.0.0"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -79,5 +81,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "lint-staged": {
+    "*.{ts,md}": "npm run format"
   }
 }
