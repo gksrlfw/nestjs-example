@@ -4,6 +4,7 @@ import { InjectConnection, TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-options.interface';
 import { Connection } from 'typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { DbName } from '@src/core/mysql/db-name';
 
 @Module({
   imports: [
@@ -18,13 +19,13 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
           '',
         );
 
-        const mysqlName = configService.get<string>('MYSQL_NAME', 'sample');
+        const mysqlName = configService.get<string>('MYSQL_NAME', 'template');
 
         return {
           // dbms 유형
           type: 'mysql',
-          name: 'test',
-          entities: [__dirname + '/../entities/*{.ts,.js}'],
+          name: DbName.TEMPLATE,
+          entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
           namingStrategy: new SnakeNamingStrategy(),
           synchronize: true,
           // debug: true,
@@ -53,6 +54,6 @@ export class MysqlModule implements OnModuleInit {
    * Module 이 초기화되면 database connection 연결을 확인합니다.
    */
   async onModuleInit(): Promise<void> {
-    this.logger.debug(`onModuleInit`);
+    this.logger.debug(`MysqlModule init`);
   }
 }

@@ -13,6 +13,11 @@ import { join } from 'path';
     typePaths: ['./**/*.graphql'],
     path: join(process.cwd(), './src/core/autogen/schema.graphql.ts'),
     outputAs: 'class',
+    customScalarTypeMapping: {
+      CtDatetime: 'CtDayjs',
+      CtDate: 'CtDayjs',
+    },
+    additionalHeader: "import { CtDayjs } from '@src/common/date/ct-dayjs'",
   });
   console.log('Finished successfully.');
   console.log(

@@ -34,6 +34,7 @@
     "apollo-server-express": "3.4.0",
     "class-transformer": "0.4.0",
     "class-validator": "0.13.1",
+    "dayjs": "^1.10.7",
     "graphql": "15.7.1",
     "graphql-query-complexity": "0.9.0",
     "graphql-subscriptions": "1.2.1",
@@ -64,8 +65,7 @@
     "ts-loader": "9.2.6",
     "ts-node": "10.4.0",
     "tsconfig-paths": "3.11.0",
-    "typescript": "4.4.2",
-    "husky": "^7.0.0"
+    "typescript": "4.4.2"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -82,7 +82,13 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "@src/(.*)": "<rootDir>/$1"
+    },
+    "roots": [
+      "<rootDir>/"
+    ]
   },
   "lint-staged": {
     "*.{ts,md}": "npm run format"
