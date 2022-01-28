@@ -1,7 +1,7 @@
-type Query {
+extend type Query {
     """
     유저정보를 가져옵니다.
     """
-    getUsers: Boolean!
+    getUsers: [User]!
 
 }

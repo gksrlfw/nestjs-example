@@ -1,0 +1,10 @@
+"""
+유저
+"""
+type User {
+    id: Int!
+    name: String!
+    age: Int!
+    createdAt: CtDatetime!
+    updatedAt: CtDatetime!
+}
