@@ -6,7 +6,7 @@ describe('CtDateColumnTransformer 테스트', () => {
 
   it('from test', () => {
     const input = CtDateColumnTransformer.from(YMD);
-    const result = new CtDate(YMD).format();
+    const result = new CtDate(YMD);
 
     expect(input).toEqual(result);
   });
