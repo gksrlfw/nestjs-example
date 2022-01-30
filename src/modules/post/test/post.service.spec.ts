@@ -18,8 +18,8 @@ describe('UserMasterRepository test', () => {
   }, 10000);
 
   it('', async () => {
-    console.log(await postService.getPostById(1));
-    console.log(await postService.getPostById(2));
-    console.log(await postService.getPostById(3));
+    // console.log(await postService.getPostById(1));
+    // console.log(await postService.getPostById(2));
+    // console.log(await postService.getPostById(3));
   });
 });

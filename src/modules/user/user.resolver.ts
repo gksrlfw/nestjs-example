@@ -11,6 +11,7 @@ import { UserService } from '@src/modules/user/user.service';
 import { Logger } from '@nestjs/common';
 import { PostService } from '@src/modules/post/post.service';
 import * as DataLoader from 'dataloader';
+import { UserPostsLoader } from '@src/modules/user/loaders/user-posts.loader';
 
 @Resolver('User')
 export class UserResolver {
@@ -20,12 +21,10 @@ export class UserResolver {
   constructor(
     private readonly userService: UserService,
     private readonly postService: PostService,
+    private readonly userPostsLoader: UserPostsLoader,
   ) {
-    // fixme
-    //  this 가 binding 되지 않습니다??
-    // this.userLoader = new DataLoader(this.batchFnOnPosts)
     this.userLoader = new DataLoader<number, Post[]>(
-      async (keys) => await this.batchFnOnPosts(keys),
+      async (keys) => await this.userPostsLoader.generate(keys),
     );
   }
 
@@ -54,23 +53,5 @@ export class UserResolver {
   async posts(@Parent() user: User): Promise<Post[]> {
     this.logger.debug(`posts(user: ${JSON.stringify(user)})`);
     return this.userLoader.load(user.id);
-    // return this.userLoader.load.bind(this, user.id);
-  }
-
-  /**
-   *
-   * @param keys
-   */
-  async batchFnOnPosts(keys: readonly number[]): Promise<(null | Post[])[]> {
-    this.logger.debug(`batchFnOnPosts(keys: ${keys})`);
-    const posts = await this.postService.getPostsByUsers(keys as number[]);
-    return keys.map((key) => {
-      const postsOnKey = posts.filter((post) => post.userId === key);
-      if (!postsOnKey || !postsOnKey.length) {
-        return null;
-      }
-
-      return postsOnKey.map((post) => post.toPost());
-    });
   }
 }
