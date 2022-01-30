@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { UserRepository } from '@src/modules/user/repositories/user.repository';
-import { CreateUserInput, User } from '@src/core/autogen/schema.graphql';
+import { CreateUserInput } from '@src/core/autogen/schema.graphql';
+import { UserEntity } from '@src/modules/user/entities/user.entity';
 
 @Injectable()
 export class UserService {
@@ -11,10 +12,8 @@ export class UserService {
   /**
    *
    */
-  async getUsers(): Promise<User[]> {
-    return (await this.userRepository.getAllUsers()).map((user) =>
-      user.toUser(),
-    );
+  getUsers(): Promise<UserEntity[]> {
+    return this.userRepository.getAllUsers();
   }
 
   /**
@@ -22,12 +21,12 @@ export class UserService {
    * @param name
    * @param age
    */
-  async create({ name, age }: CreateUserInput): Promise<User> {
+  create({ name, age }: CreateUserInput): Promise<UserEntity> {
     const instance = this.userRepository.create({
       name,
       age,
     });
 
-    return (await this.userRepository.save(instance)).toUser();
+    return this.userRepository.save(instance);
   }
 }

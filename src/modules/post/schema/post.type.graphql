@@ -1,12 +1,11 @@
 """
 유저
 """
-type User {
+type Post {
     id: Int
-    name: String
-    age: Int
+    title: String
+    content: String
     createdAt: CtDatetime
     updatedAt: CtDatetime
-
-    posts: [Post]
+    userId: Int
 }

@@ -1,0 +1,5 @@
+input CreatePostInput {
+    userId: Int!
+    title: String!
+    content: String!
+}
