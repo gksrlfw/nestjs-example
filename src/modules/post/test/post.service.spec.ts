@@ -1,25 +1,55 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import { CoreModule } from '@src/core/core.module';
-import { PostModule } from '@src/modules/post/post.module';
+import { PostRepository } from '@src/modules/post/repositories/post.repository';
 import { PostService } from '@src/modules/post/post.service';
+import { RepositoryMock } from '@src/common/test/__mocks__/repository.mock';
+import { LoggerMock } from '@src/common/test/__mocks__/logger.mock';
 
-describe('UserMasterRepository test', () => {
+/**
+ * service 의 유닛테스트입니다.
+ */
+describe('PostService test', () => {
   let app: INestApplication;
+
   let postService: PostService;
+  let postRepository;
   beforeAll(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [CoreModule, PostModule],
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [],
+      providers: [
+        PostService,
+        {
+          provide: PostRepository,
+          useValue: RepositoryMock.postRepositoryMock,
+        },
+      ],
     }).compile();
 
-    app = moduleFixture.createNestApplication();
-    postService = moduleFixture.get<PostService>(PostService);
+    app = module.createNestApplication();
     await app.init();
-  }, 10000);
 
-  it('', async () => {
-    // console.log(await postService.getPostById(1));
-    // console.log(await postService.getPostById(2));
-    // console.log(await postService.getPostById(3));
+    module.useLogger(new LoggerMock());
+    postRepository = RepositoryMock.postRepositoryMock;
+    postService = module.get<PostService>(PostService);
+  });
+
+  describe('getPosts() test', () => {
+    it('case 1.', async () => {
+      const result = [
+        {
+          id: 1,
+          title: 'first',
+        },
+        {
+          id: 2,
+          title: 'second',
+        },
+      ];
+
+      jest.spyOn(postRepository, 'getAllPosts').mockResolvedValue(result);
+      const input = await postService.getPosts();
+
+      expect(input).toEqual(result);
+    });
   });
 });

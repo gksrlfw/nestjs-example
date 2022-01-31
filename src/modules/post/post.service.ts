@@ -39,14 +39,6 @@ export class PostService {
 
   /**
    *
-   * @param userId
-   */
-  getPostsByUser(userId: number): Promise<PostEntity[]> {
-    return this.postRepository.getAllPostsByUser(userId);
-  }
-
-  /**
-   *
    * @param userIds
    */
   getPostsByUsers(userIds: number[]): Promise<PostEntity[]> {

@@ -8,7 +8,6 @@ describe('CtDatetimeColumnTransformer 테스트', () => {
     const input = CtDatetimeColumnTransformer.from(YMDHMS);
     const result = new CtDatetime(YMDHMS);
 
-    console.log(input, result);
     expect(input).toEqual(result);
   });
 

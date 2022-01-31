@@ -12,22 +12,6 @@ export class PostRepository extends Repository<PostEntity> {
 
   /**
    *
-   * @param id
-   */
-  getPostById(id: number): Promise<PostEntity> {
-    return this.findOne(id);
-  }
-
-  /**
-   *
-   * @param ids
-   */
-  getPostsByIds(ids: number[]): Promise<PostEntity[]> {
-    return this.findByIds(ids);
-  }
-
-  /**
-   *
    */
   getAllPosts(): Promise<PostEntity[]> {
     return this.createQueryBuilder('p').getMany();
