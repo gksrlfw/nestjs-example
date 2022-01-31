@@ -12,6 +12,7 @@
     "start": "ENV_POSTFIX=local nest start",
     "start:dev": "ENV_POSTFIX=dev nest start --watch",
     "start:prd": "ENV_POSTFIX=prod nest start --watch",
+    "start:docker": "ENV_POSTFIX=docker nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
