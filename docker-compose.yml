@@ -19,7 +19,7 @@ services:
     container_name: server
     build:
       context: ./
-      dockerfile: dockerfile
+      dockerfile: dockerfile-local
     ports:
       - '3000:3000'
     volumes:

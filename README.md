@@ -6,7 +6,7 @@ Nestjs 기반의 간단한 예제 코드입니다.
 
 ### ENV
 
-자세한 내용은 [여기](./src/core/config/README.md) 확인하세요
+자세한 내용은 [여기](./src/core/config/README.md)에서 확인하세요
 
 ### RUN ON LOCAL
 
@@ -32,7 +32,12 @@ docker-compose up --build
 
 # TODO
 
-- [x] [configuration](./src/core/config/README.md)
+- [ ] nestjs
+  - [x] [configuration](./src/core/config/README.md)
+  - [x] filter
+  - [ ] decorator
+  - [ ] auth
+  - [ ] ...
 - [x] graphql
   - [x] custom scalar
   - [x] [dataloader](./src/common/dataloader/README.md)
@@ -42,4 +47,4 @@ docker-compose up --build
 - [x] [test](./src/modules/post/test/README.md)
 - [x] docker
 - [ ] github actions
-- [ ] [k8s](./k8s/README.md)
+- [x] [k8s](./k8s/README.md)

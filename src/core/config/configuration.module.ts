@@ -7,6 +7,7 @@ import { AppEnvironment } from './app-env.service';
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: AppEnvironment.setEnvPostfix(),
+      ignoreEnvFile: !AppEnvironment.isLocal(),
     }),
   ],
 })

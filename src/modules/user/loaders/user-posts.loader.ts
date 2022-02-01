@@ -29,6 +29,6 @@ export class UserPostsLoader implements ILoader {
       Array.from<number>(keys),
       posts,
       'userId',
-    ).map((results) => results.map((post) => post.toPost()));
+    ).map((results) => results?.map((post) => post.toPost()));
   }
 }

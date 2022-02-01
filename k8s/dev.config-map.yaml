@@ -1,0 +1,8 @@
+# github 에 올리면 안됩니다.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: dev
+  name: template-configmap
+data:
+  MYSQL_HOST: mysql-ip

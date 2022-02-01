@@ -1,4 +1,4 @@
-#
+# husky, lint-staged
 
 commit 하기 전에 자동으로 formatting 을 하도록 설정합니다.
 

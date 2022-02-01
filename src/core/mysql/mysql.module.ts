@@ -20,7 +20,7 @@ import { DbName } from '@src/core/mysql/db-name';
         );
 
         const mysqlName = configService.get<string>('MYSQL_NAME', 'template');
-
+        console.log('jello', mysqlHost);
         return {
           // dbms 유형
           type: 'mysql',
