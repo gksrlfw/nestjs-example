@@ -15,6 +15,12 @@ export class CreatePostInput {
   content: string;
 }
 
+export class UpdatePostInput {
+  id: number;
+  title: string;
+  content: string;
+}
+
 export class CreateUserInput {
   name: string;
   age: number;
@@ -28,6 +34,8 @@ export abstract class IQuery {
 
 export abstract class IMutation {
   abstract createPost(input: CreatePostInput): Post | Promise<Post>;
+
+  abstract updatePost(input: UpdatePostInput): Post | Promise<Post>;
 
   abstract createUser(input: CreateUserInput): User | Promise<User>;
 }

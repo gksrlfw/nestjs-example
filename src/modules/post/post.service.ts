@@ -1,8 +1,13 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { CreatePostInput } from '@src/core/autogen/schema.graphql';
+import {
+  CreatePostInput,
+  UpdatePostInput,
+} from '@src/core/autogen/schema.graphql';
 import { PostRepository } from '@src/modules/post/repositories/post.repository';
 import { UserEntity } from '@src/modules/user/entities/user.entity';
 import { PostEntity } from '@src/modules/post/entities/post.entity';
+import { CtError } from '@src/common/error/ct-error';
+import { CtErrorType } from '@src/common/error/ct-error-type';
 
 @Injectable()
 export class PostService {
@@ -43,5 +48,30 @@ export class PostService {
    */
   getPostsByUsers(userIds: number[]): Promise<PostEntity[]> {
     return this.postRepository.getAllPostsByUsers(userIds);
+  }
+
+  /**
+   *
+   * @param id
+   * @param title
+   * @param content
+   */
+  async update({ id, title, content }: UpdatePostInput): Promise<PostEntity> {
+    this.logger.debug(
+      `update({ id: ${id}, title: ${title}, content: ${content})`,
+    );
+    const instance = await this.postRepository.findOne(id);
+
+    if (!instance) {
+      this.logger.debug(`id: ${id} 를 찾을 수 없습니다.`);
+      throw new CtError(
+        CtErrorType.ResourceNotFound,
+        '게시글의 ID 를 확인해주세요',
+      );
+    }
+
+    instance.update(title, content);
+
+    return this.postRepository.save(instance);
   }
 }

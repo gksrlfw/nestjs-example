@@ -1,5 +1,10 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { CreatePostInput, Post, User } from '@src/core/autogen/schema.graphql';
+import {
+  CreatePostInput,
+  Post,
+  UpdatePostInput,
+  User,
+} from '@src/core/autogen/schema.graphql';
 import { Logger } from '@nestjs/common';
 import { PostService } from '@src/modules/post/post.service';
 
@@ -9,13 +14,30 @@ export class PostResolver {
 
   constructor(private readonly postService: PostService) {}
 
+  /**
+   *
+   */
   @Query(() => [Post])
   async getPosts(): Promise<Post[]> {
     return (await this.postService.getPosts()).map((post) => post.toPost());
   }
 
+  /**
+   *
+   * @param input
+   */
   @Mutation(() => User)
   async createPost(@Args('input') input: CreatePostInput): Promise<Post> {
     return (await this.postService.create(input)).toPost();
+  }
+
+  /**
+   *
+   * @param input
+   */
+  @Mutation(() => User)
+  async updatePost(@Args('input') input: UpdatePostInput): Promise<Post> {
+    this.logger.debug(`updatePost(input: ${JSON.stringify(input)})`);
+    return (await this.postService.update(input)).toPost();
   }
 }

@@ -76,4 +76,15 @@ export class PostEntity {
       userId: this.userId,
     });
   }
+
+  /**
+   *
+   * @param title
+   * @param content
+   */
+  update(title: string, content: string): PostEntity {
+    this.title = title;
+    this.content = content;
+    return this;
+  }
 }

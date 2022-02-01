@@ -14,7 +14,7 @@ describe('PostEntity test', () => {
     instance = new PostEntity();
   });
 
-  it('toPost 테스트', () => {
+  it('toPost test', () => {
     instance.id = 1;
     instance.title = 'first';
 
@@ -25,5 +25,20 @@ describe('PostEntity test', () => {
     });
 
     expect(input).toEqual(result);
+  });
+
+  describe('update test', () => {
+    it('title, content 를 수정합니다.', () => {
+      instance.title = '안녕';
+      instance.content = '응!!';
+
+      const input = instance.update('수정', '수정2');
+      const result = Object.assign(new PostEntity(), {
+        title: '수정',
+        content: '수정2',
+      });
+
+      expect(input).toEqual(result);
+    });
   });
 });
