@@ -5,9 +5,10 @@ import { GraphqlModule } from '@src/core/graphql/graphql.module';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from '@src/core/filter/all-exceptions.filter';
 import { ErrorHandlerFactory } from '@src/core/filter/factories/error-handler-factory';
+import { DayjsModule } from '@src/core/dayjs/dayjs.module';
 
 @Module({
-  imports: [ConfigurationModule, MysqlModule, GraphqlModule],
+  imports: [ConfigurationModule, MysqlModule, GraphqlModule, DayjsModule],
   providers: [
     ErrorHandlerFactory,
     {
