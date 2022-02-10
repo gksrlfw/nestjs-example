@@ -1,5 +1,13 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
+import {
+  Comment,
   CreatePostInput,
   Post,
   UpdatePostInput,
@@ -7,8 +15,11 @@ import {
 } from '@src/core/autogen/schema.graphql';
 import { Logger } from '@nestjs/common';
 import { PostService } from '@src/modules/post/post.service';
+import { Loader } from '@src/common/dataloader/nestjs-dataloader';
+import { CommentsLoader } from '@src/modules/post/loaders/comments.loader';
+import * as DataLoader from 'dataloader';
 
-@Resolver()
+@Resolver('Post')
 export class PostResolver {
   private readonly logger: Logger = new Logger(this.constructor.name);
 
@@ -39,5 +50,19 @@ export class PostResolver {
   async updatePost(@Args('input') input: UpdatePostInput): Promise<Post> {
     this.logger.debug(`updatePost(input: ${JSON.stringify(input)})`);
     return (await this.postService.update(input)).toPost();
+  }
+
+  /**
+   *
+   * @param post
+   * @param commentsLoader
+   */
+  @ResolveField('comments')
+  async comments(
+    @Parent() post: Post,
+    @Loader(CommentsLoader) commentsLoader: DataLoader<number, Comment[]>,
+  ): Promise<Comment[]> {
+    this.logger.debug(`comments(post: ${JSON.stringify(post)})`);
+    return commentsLoader.load(post.id);
   }
 }

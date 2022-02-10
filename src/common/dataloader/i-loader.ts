@@ -1,4 +1,5 @@
 /**
+ * @deprecated CNestDataLoader 를 사용하세요.
  * TODO nestjs-dataloader 를 사용해봅시다.
  *  https://colour-me.tistory.com/1
  */
