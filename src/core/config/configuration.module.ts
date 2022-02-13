@@ -1,13 +1,13 @@
 import { Logger, Module, OnModuleInit } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppEnvironment } from './app-env.service';
+import { AppEnvironment } from './app-environment';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: AppEnvironment.setEnvPostfix(),
-      ignoreEnvFile: !AppEnvironment.isLocal(),
+      ignoreEnvFile: AppEnvironment.ignoreEnvFile(),
     }),
   ],
 })

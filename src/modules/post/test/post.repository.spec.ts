@@ -3,6 +3,8 @@ import { INestApplication } from '@nestjs/common';
 import { CoreModule } from '@src/core/core.module';
 import { PostModule } from '@src/modules/post/post.module';
 import { PostRepository } from '@src/modules/post/repositories/post.repository';
+import { getConnection } from 'typeorm';
+import { DbName } from '@src/core/mysql/db-name';
 
 /**
  * Repository 에 대한 테스트는 db 연결하여 정상적으로 데이터를 불러오는지 확인합니다.
@@ -22,5 +24,9 @@ describe('PostRepository test', () => {
 
   it('toString test', async () => {
     expect(postRepository.toString()).toEqual('PostRepository');
+  });
+
+  afterAll(async () => {
+    await getConnection(DbName.TEMPLATE).close();
   });
 });

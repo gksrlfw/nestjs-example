@@ -58,3 +58,9 @@ docker push gksrlfw/template:0.0.1
 ```
 kubectl apply -f <file name> -n dev
 ```
+
+## TODO
+
+GCP 서비스를 이용하여 CI/CD 를 구축해봅니다.
+
+(cloud build, cloud registry, compute engine...)

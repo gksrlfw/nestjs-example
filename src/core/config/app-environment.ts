@@ -1,12 +1,10 @@
-import { ConfigService } from '@nestjs/config';
 import { AppEnvEnum } from './app-env.enum';
 
 /**
  *
  */
 export namespace AppEnvironment {
-  const configService = new ConfigService();
-  const value = configService.get<string>('APP_ENV');
+  const value = process.env.APP_ENV;
 
   export function isLocal(): boolean {
     return value === AppEnvEnum.LOCAL;
@@ -28,6 +26,15 @@ export namespace AppEnvironment {
    *
    */
   export function setEnvPostfix(): string {
-    return `.env.${value}`;
+    return `.env.${process.env.ENV_POSTFIX}`;
+  }
+
+  /**
+   *
+   */
+  export function ignoreEnvFile(): boolean {
+    return (
+      process.env.ENV_POSTFIX !== 'test' && process.env.ENV_POSTFIX !== 'local'
+    );
   }
 }

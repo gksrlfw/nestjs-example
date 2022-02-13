@@ -44,7 +44,7 @@ docker-compose up --build
 - [x] mysql
 - [ ] mongodb
 - [x] [husky, lint-staged](./.husky/README.md)
-- [x] [test](./src/modules/post/test/README.md)
 - [x] docker
-- [ ] github actions
+- [x] [test](./src/modules/post/test/README.md)
+- [x] [github actions](.github/workflows/README.md)
 - [x] [k8s](./k8s/README.md)
