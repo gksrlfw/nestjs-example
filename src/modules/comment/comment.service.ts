@@ -10,7 +10,7 @@ export class CommentService {
 
   constructor(private readonly commentRepository: CommentRepository) {}
 
-  /**
+  /**[
    *
    */
   async getComments(): Promise<CommentEntity[]> {

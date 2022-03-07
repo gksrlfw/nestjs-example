@@ -15,6 +15,15 @@ services:
       - ./mysql/sqls/:/docker-entrypoint-initdb.d/
     networks:
       - server_test
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    ports:
+      - '6379:6379'
+    networks:
+      - server_test
+
   server:
     container_name: server
     build:

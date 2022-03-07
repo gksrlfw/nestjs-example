@@ -37,6 +37,8 @@ docker-compose up --build
   - [x] filter
   - [ ] decorator
   - [ ] auth
+    - [ ] token 인증
+    - [ ] [redis](./src/common/redis/README.md)
   - [ ] ...
 - [x] graphql
   - [x] custom scalar

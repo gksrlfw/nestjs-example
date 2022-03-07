@@ -12,6 +12,7 @@ import { Logger } from '@nestjs/common';
 import { PostService } from '@src/modules/post/post.service';
 import * as DataLoader from 'dataloader';
 import { UserPostsLoader } from '@src/modules/user/loaders/user-posts.loader';
+import { RedisService } from '@src/common/redis/redis.service';
 
 @Resolver('User')
 export class UserResolver {
