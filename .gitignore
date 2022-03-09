@@ -43,3 +43,5 @@ lerna-debug.log*
 .env
 
 mysql/mysql_data
+
+.prettierignore

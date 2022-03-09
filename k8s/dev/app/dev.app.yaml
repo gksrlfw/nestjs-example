@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: template
-          image: gksrlfw/template:0.0.1
+          image: gksrlfw/template:latest
           ports:
             - containerPort: 3000
           env:
@@ -31,3 +31,13 @@ spec:
                 configMapKeyRef:
                   name: template-configmap
                   key: MYSQL_HOST
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: template-configmap
+                  key: REDIS_HOST
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: template-configmap
+                  key: REDIS_PORT

@@ -16,6 +16,8 @@ Docker Desktop 에서는 단일 노드 클러스터 환경을 무료로 제공�
 - dev.mysql.yaml : mysql 입니다.
 - dev.mysql-ip.yaml : mysql 을 위한 clusterIp 입니다.
 - dev.tem-port.yaml : application 을 위한 nodePort 입니다.
+- dev.redis.yaml : redis 입니다.
+- dev.redis-ip.yaml : redis 를 위한 clusterIp 입니다.
 - dev.config-map.yaml : configMap 입니다.
 
 아래 과정을 통해 k8s 에 배포합니다.
@@ -56,7 +58,7 @@ docker push gksrlfw/template:0.0.1
 아래 명령어를 통해 각 파일을 실행합니다.
 
 ```
-kubectl apply -f <file name> -n dev
+kubectl apply -f <directory/file name> -n dev
 ```
 
 ## TODO
