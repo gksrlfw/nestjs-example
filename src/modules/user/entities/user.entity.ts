@@ -1,17 +1,40 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  Column,
+  Entity,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { CtDayjs } from '@src/common/date/ct-dayjs';
 import { CtDatetimeColumnTransformer } from '@src/common/typeorm/ct-datetime-column-transformer';
 import { User } from '@src/core/autogen/schema.graphql';
+import { Exclude } from 'class-transformer';
+import * as bcrypt from 'bcrypt';
 
-@Entity('User')
+@Entity('user')
 export class UserEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryColumn({
+    comment: 'ID',
+    type: 'varchar',
+    length: 20,
+    unique: true,
+    nullable: false,
+  })
+  id: string;
+
+  @Column({
+    comment: '비밀번호',
+    type: 'varchar',
+    length: 120,
+    nullable: false,
+  })
+  @Exclude()
+  password: string;
 
   @Column({
     comment: '이름',
     type: 'varchar',
-    length: '20',
+    length: 20,
   })
   name: string;
 
@@ -36,10 +59,24 @@ export class UserEntity {
   })
   updatedAt: CtDayjs;
 
+  /**
+   * token
+   */
+  token: string;
+
   @BeforeInsert()
-  beforeInsert() {
+  async beforeInsert() {
     this.createdAt = CtDayjs.now();
     this.updatedAt = CtDayjs.now();
+    this.password = await bcrypt.hash(this.password, 10);
+  }
+
+  /**
+   *
+   * @param password
+   */
+  async validatePassword(password: string): Promise<boolean> {
+    return bcrypt.compare(password, this.password);
   }
 
   /**
@@ -52,6 +89,14 @@ export class UserEntity {
       age: this.age,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
+      token: this.token,
     });
+  }
+
+  toPayload() {
+    return {
+      id: this.id,
+      name: this.name,
+    };
   }
 }

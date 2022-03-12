@@ -12,19 +12,20 @@ import { Logger } from '@nestjs/common';
 import { PostService } from '@src/modules/post/post.service';
 import * as DataLoader from 'dataloader';
 import { UserPostsLoader } from '@src/modules/user/loaders/user-posts.loader';
-import { RedisService } from '@src/common/redis/redis.service';
+import { CtError } from '@src/common/error/ct-error';
+import { CtErrorType } from '@src/common/error/ct-error-type';
 
 @Resolver('User')
 export class UserResolver {
   private readonly logger: Logger = new Logger(this.constructor.name);
-  private userLoader: DataLoader<number, Post[]>;
+  private userLoader: DataLoader<string, Post[]>;
 
   constructor(
     private readonly userService: UserService,
     private readonly postService: PostService,
     private readonly userPostsLoader: UserPostsLoader,
   ) {
-    this.userLoader = new DataLoader<number, Post[]>(
+    this.userLoader = new DataLoader<string, Post[]>(
       async (keys) => await this.userPostsLoader.generate(keys),
     );
   }
@@ -38,11 +39,12 @@ export class UserResolver {
   }
 
   /**
-   *
+   * @Deprecated join 을 사용하세요
    * @param input
    */
   @Mutation(() => User)
   async createUser(@Args('input') input: CreateUserInput): Promise<User> {
+    throw new CtError(CtErrorType.InternalServerError, 'join 을 사용하세요.');
     return (await this.userService.create(input)).toUser();
   }
 

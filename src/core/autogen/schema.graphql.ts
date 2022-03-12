@@ -10,13 +10,25 @@
 
 import { CtDayjs } from '@src/common/date/ct-dayjs'
 
+export class JoinInput {
+    id: string;
+    password: string;
+    name: string;
+    age: number;
+}
+
+export class LoginInput {
+    id: string;
+    password: string;
+}
+
 export class CreateCommentInput {
     postId: number;
     content: string;
 }
 
 export class CreatePostInput {
-    userId: number;
+    userId: string;
     title: string;
     content: string;
 }
@@ -41,6 +53,10 @@ export abstract class IQuery {
 }
 
 export abstract class IMutation {
+    abstract join(input: JoinInput): User | Promise<User>;
+
+    abstract login(input: LoginInput): User | Promise<User>;
+
     abstract createComment(input: CreateCommentInput): Comment | Promise<Comment>;
 
     abstract createPost(input: CreatePostInput): Post | Promise<Post>;
@@ -67,11 +83,12 @@ export class Post {
 }
 
 export class User {
-    id?: Nullable<number>;
+    id?: Nullable<string>;
     name?: Nullable<string>;
     age?: Nullable<number>;
     createdAt?: Nullable<CtDatetime>;
     updatedAt?: Nullable<CtDatetime>;
+    token?: Nullable<string>;
     posts?: Nullable<Nullable<Post>[]>;
 }
 

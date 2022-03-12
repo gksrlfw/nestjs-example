@@ -1,5 +1,5 @@
 input CreatePostInput {
-    userId: Int!
+    userId: String!
     title: String!
     content: String!
 }

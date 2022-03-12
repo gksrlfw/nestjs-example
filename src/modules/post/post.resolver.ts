@@ -13,12 +13,14 @@ import {
   UpdatePostInput,
   User,
 } from '@src/core/autogen/schema.graphql';
-import { Logger } from '@nestjs/common';
+import { Logger, UseGuards } from '@nestjs/common';
 import { PostService } from '@src/modules/post/post.service';
 import { Loader } from '@src/common/dataloader/nestjs-dataloader';
 import { CommentsLoader } from '@src/modules/post/loaders/comments.loader';
 import * as DataLoader from 'dataloader';
+import { JwtGuard } from '@src/modules/auth/guards/jwt.guard';
 
+@UseGuards(JwtGuard)
 @Resolver('Post')
 export class PostResolver {
   private readonly logger: Logger = new Logger(this.constructor.name);

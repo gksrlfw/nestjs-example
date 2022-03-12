@@ -14,7 +14,7 @@ import { UserEntity } from '@src/modules/user/entities/user.entity';
 /**
  *
  */
-@Entity('Post')
+@Entity('post')
 export class PostEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -49,12 +49,12 @@ export class PostEntity {
 
   @Column({
     comment: '작성자ID',
-    type: 'int',
+    type: 'varchar',
   })
-  userId: number;
+  userId: string;
 
   @ManyToOne(() => UserEntity, (user) => user.id)
-  @JoinColumn({ name: 'user_id' })
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user: UserEntity;
 
   @BeforeInsert()

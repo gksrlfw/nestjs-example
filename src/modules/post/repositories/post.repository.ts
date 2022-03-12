@@ -31,7 +31,7 @@ export class PostRepository extends Repository<PostEntity> {
    *
    * @param userIds
    */
-  getAllPostsByUsers(userIds): Promise<PostEntity[]> {
+  getAllPostsByUsers(userIds: string[]): Promise<PostEntity[]> {
     return this.createQueryBuilder('p')
       .where('user_id in (:userIds)', { userIds })
       .getMany();

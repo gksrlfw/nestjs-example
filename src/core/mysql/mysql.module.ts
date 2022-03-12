@@ -27,7 +27,7 @@ import { DbName } from '@src/core/mysql/db-name';
           name: DbName.TEMPLATE,
           entities: [__dirname + '/../../**/*.entity{.ts,.js}'],
           namingStrategy: new SnakeNamingStrategy(),
-          synchronize: false,
+          synchronize: true,
           // debug: true,
           host: mysqlHost,
           port: mysqlPort,

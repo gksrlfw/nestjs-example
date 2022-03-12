@@ -6,10 +6,17 @@ import { CommentModule } from '@src/modules/comment/comment.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { DataLoaderInterceptor } from '@src/common/dataloader/nestjs-dataloader';
 import { CommonModule } from '@src/common/common.module';
-import { RedisService } from '@src/common/redis/redis.service';
+import { AuthModule } from '@src/modules/auth/auth.module';
 
 @Module({
-  imports: [CoreModule, CommonModule, UserModule, PostModule, CommentModule],
+  imports: [
+    CoreModule,
+    CommonModule,
+    UserModule,
+    PostModule,
+    CommentModule,
+    AuthModule,
+  ],
   providers: [
     {
       provide: APP_INTERCEPTOR,

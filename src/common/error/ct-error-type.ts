@@ -13,4 +13,8 @@ export enum CtErrorType {
 
   // 처리도지 않은 오류
   UnhandledError = 'UnhandledError',
+
+  UnAuthenticated = 'UnAuthenticated',
+
+  AccessTokenExpired = 'AccessTokenExpired',
 }
