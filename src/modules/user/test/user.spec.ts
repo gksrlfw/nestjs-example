@@ -12,13 +12,13 @@ describe('UserEntity test', () => {
   });
 
   it('toUser 테스트', () => {
-    instance.id = 1;
+    instance.id = '1';
     instance.name = '한길';
     instance.age = 27;
 
     const input = instance.toUser();
     const result = Object.assign(new User(), {
-      id: 1,
+      id: '1',
       name: '한길',
       age: 27,
     });

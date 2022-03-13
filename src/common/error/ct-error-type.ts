@@ -17,4 +17,6 @@ export enum CtErrorType {
   UnAuthenticated = 'UnAuthenticated',
 
   AccessTokenExpired = 'AccessTokenExpired',
+
+  RefreshTokenExpired = 'RefreshTokenExpired',
 }

@@ -10,6 +10,7 @@ import { CtDatetimeColumnTransformer } from '@src/common/typeorm/ct-datetime-col
 import { User } from '@src/core/autogen/schema.graphql';
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
+import { UserTokenPayload } from '@src/modules/auth/types/user-token-payload';
 
 @Entity('user')
 export class UserEntity {
@@ -93,10 +94,10 @@ export class UserEntity {
     });
   }
 
-  toPayload() {
-    return {
+  toPayload(): UserTokenPayload {
+    return Object.assign(new UserTokenPayload(), {
       id: this.id,
       name: this.name,
-    };
+    });
   }
 }

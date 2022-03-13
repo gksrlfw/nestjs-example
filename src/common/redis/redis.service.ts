@@ -11,7 +11,7 @@ export class RedisService {
   private static readonly logger: Logger = new Logger(RedisService.name);
   private static client: RedisClientType;
 
-  public static async get() {
+  public static async get(): Promise<RedisClientType> {
     if (!this.client) {
       const port = process.env.REDIS_PORT;
       const host = process.env.REDIS_HOST;
