@@ -9,4 +9,6 @@ data:
   MYSQL_HOST: "mysql-ip"
   REDIS_HOST: "redis-ip"
   REDIS_PORT: "6379"
+  ACCESS_SECRET: "JWT"
+  REFRESH_SECRET: "JWT"
 

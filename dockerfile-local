@@ -1,17 +1,26 @@
-FROM node:14.15.3
+# step 1
+FROM node:14.15.3 AS builder
 
 # WORKDIR 을 설정합니다.
 WORKDIR /app
 
-# 의존성을 설치합니다.
-COPY package.json .
-RUN npm install
+COPY ./package.json ./package-lock.json .
 
-# build 에 필요한 코드를 복사하고 빌드합니다.
-COPY ./tsconfig.json ./tsconfig.build.json ./nest-cli.json ./
+RUN npm install --production=false
+
+#
+COPY ./tsconfig.json ./tsconfig.build.json ./nest-cli.json .
 COPY ./src ./src
 RUN npm run build
 
-# 프로젝트를 시작합니다.
+
+# step 2
+FROM node:14-alpine
+
+WORKDIR /app
+
+COPY --from=builder /app ./
+
 EXPOSE 3000
+
 CMD npm run start:docker

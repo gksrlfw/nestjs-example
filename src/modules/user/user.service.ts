@@ -27,7 +27,6 @@ export class UserService {
    *
    */
   getUsers(): Promise<UserEntity[]> {
-    console.log(this.userRepository2);
     return this.userRepository.getAllUsers();
   }
 

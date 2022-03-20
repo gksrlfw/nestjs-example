@@ -12,7 +12,7 @@ import { RefreshTokenService } from '@src/modules/auth/token/refresh-token.servi
     JwtModule.register({
       secret: process.env.REFRESH_SECRET,
       signOptions: {
-        expiresIn: '60s',
+        expiresIn: '14d',
       },
     }),
     UserModule,

@@ -12,7 +12,7 @@ import { CtErrorType } from '@src/common/error/ct-error-type';
       debug: true,
       playground: true,
       typePaths: ['./**/*.graphql'],
-      context: ({ req }) => ({ req }),
+      context: ({ req, res }) => ({ req, res }),
       definitions: {
         path: join(process.cwd(), './src/core/autogen/schema.graphql.ts'),
         outputAs: 'class',

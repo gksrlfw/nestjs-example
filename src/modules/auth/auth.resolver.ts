@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthService } from '@src/modules/auth/auth.service';
 import { JoinInput, LoginInput, User } from '@src/core/autogen/schema.graphql';
 import { Logger } from '@nestjs/common';
@@ -21,8 +21,14 @@ export class AuthResolver {
   }
 
   @Mutation('login')
-  async login(@Args('input') input: LoginInput): Promise<User> {
+  async login(
+    @Args('input') input: LoginInput,
+    @Context() context: any,
+  ): Promise<User> {
     this.logger.debug(`login(input: ${JSON.stringify(input)})`);
-    return this.authService.login(input.id, input.password);
+    const user = await this.authService.login(input.id, input.password);
+    // fixme. playground 설정 후 확인 필요.
+    context.res.header(`Authentication`, user.token);
+    return user;
   }
 }

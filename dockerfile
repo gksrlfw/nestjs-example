@@ -1,27 +1,29 @@
-# for down-sized docker image
-FROM node:14.15.3
+# step 1
+FROM node:14.15.3 AS builder
 
-ARG APP_ENV="dev"
-
-ENV APP_ENV=$APP_ENV
-
+ENV APP_ENV=dev
 ENV NODE_ENV=development
+
+# WORKDIR 을 설정합니다.
+WORKDIR /app
+
+COPY ./package.json ./package-lock.json .
+
+RUN npm install --production=false
+
+#
+COPY ./tsconfig.json ./tsconfig.build.json ./nest-cli.json .
+COPY ./src ./src
+RUN npm run build
+
+
+# step 2
+FROM node:14-alpine
 
 WORKDIR /app
 
-COPY ./package.json ./
+COPY --from=builder /app ./
 
-RUN npm install
-
-# build 할 떄 필요한 것들도 복사
-COPY ./tsconfig.json ./tsconfig.build.json ./nest-cli.json ./
-COPY ./src ./src
-
-# 의존성 설치 및 프로젝트 빌드
-RUN npm run build
-
-# port 노출
 EXPOSE 3000
 
-# application 실행
 CMD npm run start:prod

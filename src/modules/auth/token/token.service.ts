@@ -21,5 +21,9 @@ export abstract class TokenService {
     return this.jwtService.verifyAsync<T>(token);
   }
 
-  // abstract verify(token: string);
+  /**
+   *
+   * @param token
+   */
+  abstract verifyToken(token: string);
 }

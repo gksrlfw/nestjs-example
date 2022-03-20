@@ -10,7 +10,7 @@ import { AuthModule } from '@src/modules/auth/auth.module';
 /**
  * Repository 에 대한 테스트는 db 연결하여 정상적으로 데이터를 불러오는지 확인합니다.
  */
-describe('PostRepository test', () => {
+describe.skip('PostRepository test', () => {
   let app: INestApplication;
   let postRepository: PostRepository;
   beforeAll(async () => {

@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: template
-          image: gksrlfw/template:latest
+          image: gksrlfw/template:0.0.2
           ports:
             - containerPort: 3000
           env:
@@ -41,3 +41,13 @@ spec:
                 configMapKeyRef:
                   name: template-configmap
                   key: REDIS_PORT
+            - name: ACCESS_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: template-configmap
+                  key: ACCESS_SECRET
+            - name: REFRESH_SECRET
+              valueFrom:
+                configMapKeyRef:
+                  name: template-configmap
+                  key: REFRESH_SECRET

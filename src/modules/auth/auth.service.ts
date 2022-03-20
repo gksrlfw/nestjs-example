@@ -4,7 +4,6 @@ import { User } from '@src/core/autogen/schema.graphql';
 import { Injectable, Logger } from '@nestjs/common';
 import { CtError } from '@src/common/error/ct-error';
 import { CtErrorType } from '@src/common/error/ct-error-type';
-import { TokenExpiredError } from 'jsonwebtoken';
 import { AccessTokenService } from '@src/modules/auth/token/access-token.service';
 import { RefreshTokenService } from '@src/modules/auth/token/refresh-token.service';
 import { RedisService } from '@src/common/redis/redis.service';
@@ -82,7 +81,9 @@ export class AuthService {
 
     const payload = instance.toPayload();
 
-    // Todo. header 에 넣어봅시다.
+    // fixme.
+    //  header 에 넣어봅시다.
+    //  playground 에서 response header 값을 볼 수 있는 방법을 찾은 후에 진행합니다.
     instance.token = await this.accessTokenService.sign(payload.toJson());
 
     // fixme.
@@ -100,67 +101,21 @@ export class AuthService {
   }
 
   /**
-   * fixme. tokenservice 로 빼냅시다.
+   *
    * @param token
    */
-  async accessTokenVerify(token: string): Promise<UserTokenResponse> {
-    try {
-      return await this.accessTokenService.verifyAsync<UserTokenResponse>(
-        token,
-      );
-    } catch (err) {
-      if (err instanceof TokenExpiredError) {
-        this.logger.debug(
-          `err.message: ${err.message}, access token 이 만료되었습니다. 재발급합니다.`,
-        );
-        throw new CtError(
-          CtErrorType.AccessTokenExpired,
-          'access token 이 만료되었습니다. 재발급합니다.',
-        );
-      }
-      this.logger.error(err.message);
-      throw new CtError(
-        CtErrorType.UnAuthenticated,
-        'access token 이 유효하지 않습니다.',
-      );
-    }
+  async verifyAccessToken(token: string): Promise<UserTokenResponse> {
+    return this.accessTokenService.verifyToken(token);
   }
 
   /**
-   * fixme. tokenservice 로 빼냅시다.
-   * @param token
-   */
-  async refreshTokenVerify(token: string): Promise<UserTokenResponse> {
-    try {
-      return await this.refreshTokenService.verifyAsync<UserTokenResponse>(
-        token,
-      );
-    } catch (err) {
-      if (err instanceof TokenExpiredError) {
-        this.logger.error(err.message);
-        // Todo.
-        //  내부적으로 재발급을 해야할까? 아니면 로그인을 다시 시켜야할까?
-        throw new CtError(
-          CtErrorType.RefreshTokenExpired,
-          'refresh token 이 만료되었습니다. 로그아웃해야합니다.',
-        );
-      }
-      this.logger.error(err.message);
-      throw new CtError(
-        CtErrorType.UnAuthenticated,
-        'refresh token 이 유효하지 않습니다.',
-      );
-    }
-  }
-
-  /**
-   * Todo.
-   *  tokenservice 로 빼냅시다.
-   *  redis 에서 refresh token 을 확인 후에 재발급합니다.
+   * redis 에서 refresh token 을 확인 후에 재발급합니다.
    * @param accessToken
    */
   async reissueAccessToken(accessToken: string): Promise<string> {
+    this.logger.debug(`reissueAccessToken(accessToken: ${accessToken})`);
     const refreshToken = await this.redisClient.get(accessToken);
+
     if (!refreshToken) {
       this.logger.debug('refresh token 이 만료되었습니다. 로그아웃해야합니다.');
       throw new CtError(
@@ -168,13 +123,18 @@ export class AuthService {
         'refresh token 이 만료되었습니다. 로그아웃해야합니다.',
       );
     }
-    const result = await this.refreshTokenVerify(refreshToken);
 
-    return this.accessTokenService.sign(
+    const result = await this.refreshTokenService.verifyToken(refreshToken);
+    const newToken = await this.accessTokenService.sign(
       Object.assign(new UserTokenPayload(), {
         id: result.id,
         name: result.name,
       }).toJson(),
     );
+
+    // refreshToken 의 key 를 변경합니다.
+    await this.redisClient.rename(accessToken, newToken);
+
+    return newToken;
   }
 }
