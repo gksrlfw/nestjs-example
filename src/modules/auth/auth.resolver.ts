@@ -1,4 +1,4 @@
-import { Args, Mutation, Resolver, Context, Info } from '@nestjs/graphql';
+import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { AuthService } from '@src/modules/auth/auth.service';
 import { JoinInput, LoginInput, User } from '@src/core/autogen/schema.graphql';
 import { Logger } from '@nestjs/common';
@@ -21,7 +21,7 @@ export class AuthResolver {
   }
 
   @Mutation('login')
-  login(@Args('input') input: LoginInput): Promise<User> {
+  async login(@Args('input') input: LoginInput): Promise<User> {
     this.logger.debug(`login(input: ${JSON.stringify(input)})`);
     return this.authService.login(input.id, input.password);
   }

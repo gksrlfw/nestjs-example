@@ -7,7 +7,12 @@ import { TokenService } from '@src/modules/auth/token/token.service';
 
 @Injectable()
 export class RefreshTokenService extends TokenService {
+  private readonly expired = 60 * 60 * 24 * 14;
   constructor(jwtService: JwtService) {
     super(jwtService);
+  }
+
+  getExpired(): number {
+    return this.expired;
   }
 }

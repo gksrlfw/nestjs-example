@@ -8,7 +8,7 @@ import {
 import { CtDayjs } from '@src/common/date/ct-dayjs';
 import { CtDatetimeColumnTransformer } from '@src/common/typeorm/ct-datetime-column-transformer';
 import { User } from '@src/core/autogen/schema.graphql';
-import { Exclude } from 'class-transformer';
+import { classToPlain, Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 import { UserTokenPayload } from '@src/modules/auth/types/user-token-payload';
 
